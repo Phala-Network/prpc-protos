@@ -41,8 +41,8 @@ service PhactoryAPI {
   // Get given worker's state from a GK.
   rpc GetWorkerState (GetWorkerStateRequest) returns (WorkerState) {}
 
-  // A echo rpc to measure network RTT.
-  rpc Echo (EchoMessage) returns (EchoMessage) {}
+  // Register a pod
+  rpc RegisterPod (RegisterPodInfo) returns (RegisterPodResponse) {}
 }
 
 // Basic information about a Phactory instance.
@@ -327,4 +327,20 @@ message TokenomicInfo {
   uint32 total_slash_count = 18;
 
   // next: 21
+}
+
+message RegisterPodInfo {
+  // The pod's id
+  string id = 1;
+  // The quote to be used for RA
+  bytes quote = 2;
+  // The public key used for ECDH the response
+  bytes pubkey = 3;
+}
+
+message RegisterPodResponse {
+  // The public key used for ECDH the response
+  bytes pubkey = 1;
+  // The encrypted data of SCALE encoded phactory_api::prpc::RegisterPodResponse
+  bytes encrypted_data = 2;
 }
