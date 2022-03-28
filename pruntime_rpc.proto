@@ -244,6 +244,8 @@ message InitRuntimeRequest {
   optional bytes encoded_operator = 5;
   // Init the runtime for parachain.
   bool is_parachain = 6;
+  // Attestation provider;
+  optional string attestation_provider = 7;
 }
 
 // Request parameters for GetRuntimeInfo.
