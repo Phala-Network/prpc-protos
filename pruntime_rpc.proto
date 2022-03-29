@@ -207,6 +207,9 @@ message AttestationReport {
 message GetEgressMessagesResponse {
   // @codec scale EgressMessages
   bytes encoded_messages = 1;
+  // The message format version.
+  // if version=2, encoded_messages contrains messages of SignedMessageV2
+  int32 version = 2;
 }
 
 // Request parameters for ContractQuery
