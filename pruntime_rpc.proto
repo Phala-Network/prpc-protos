@@ -229,8 +229,6 @@ message Blocks {
 
 // Request parameters for InitRuntime.
 message InitRuntimeRequest {
-  // Skip the remote attestation report.
-  bool skip_ra = 1;
   // Genesis block infomation for light validation.
   // @codec scale crate::blocks::GenesisBlockInfo
   bytes encoded_genesis_info = 2;
