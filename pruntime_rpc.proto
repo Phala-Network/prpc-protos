@@ -73,6 +73,9 @@ service PhactoryAPI {
 
   // Config the pRuntime's network (currently, SOCKS5 proxy only)
   rpc ConfigNetwork (NetworkConfig) returns (google.protobuf.Empty) {}
+
+  // Fetch resource from the internet.
+  rpc HttpFetch (HttpRequest) returns (HttpResponse) {}
 }
 
 // Basic information about a Phactory instance.
@@ -437,4 +440,31 @@ message NetworkConfig {
   string all_proxy = 2;
   // The SOCKS5 proxy for outbound tcp connections to a i2p address.
   string i2p_proxy = 3;
+}
+
+message HttpHeader {
+  string name = 1;
+  string value = 2;
+}
+
+// Parameters for the RPC HttpFetch
+message HttpRequest {
+  // The destination URL to request to
+  string url = 1;
+  // The HTTP method
+  string method = 2;
+  // A list of raw headers
+  repeated HttpHeader headers = 3;
+  // The body payload
+  bytes body = 4;
+}
+
+// Return type for HttpFetch
+message HttpResponse {
+  // The HTTP status code
+  uint32 status_code = 1;
+  // A list of raw headers
+  repeated HttpHeader headers = 2;
+  // The body payload
+  bytes body = 3;
 }
