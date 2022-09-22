@@ -376,9 +376,9 @@ enum ResponsiveEvent {
 }
 
 message AddEndpointRequest {
-  // @codec scale phala_types::EndpointType
+  // @codec scale crate::endpoints::EndpointType
   bytes encoded_endpoint_type = 1;
-  bytes endpoint = 2;
+  string endpoint = 2;
 }
 
 message GetEndpointResponse {
@@ -388,7 +388,7 @@ message GetEndpointResponse {
 }
 
 message SignEndpointsRequest {
-  // @codec scale Vec<phala_types::worker_endpoint_v1::EndpointInfo>
+  // @codec scale Vec<String>
   bytes encoded_endpoints = 1;
 }
 
