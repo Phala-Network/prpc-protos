@@ -136,6 +136,10 @@ message SystemInfo {
   uint64 number_of_clusters = 5;
   // The number of contracts deployed
   uint64 number_of_contracts = 6;
+  // The consensus version used to coordinate the pruntime's behavior
+  uint32 consensus_version = 7;
+  // The max supported consensus version used of this version of pRuntime
+  uint32 max_supported_consensus_version = 8;
 }
 
 enum GatekeeperRole {
