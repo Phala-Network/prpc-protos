@@ -82,13 +82,13 @@ service PhactoryAPI {
 message PhactoryInfo {
   // Whether the init_runtime has been called successfully.
   bool initialized = 1;
-  // Whether the worker has been registered on-chain.
+  // Whether the worker has been registered on-chain. (Deprecated, use .system.registered instead)
   bool registered = 2;
   // Genesis block header hash passed in by init_runtime.
   optional string genesis_block_hash = 4;
-  // Public key of the worker.
+  // Public key of the worker. (Deprecated, use .system.public_key instead)
   optional string public_key = 5;
-  // ECDH public key of the worker.
+  // ECDH public key of the worker. (Deprecated, use .system.ecdh_public_key instead)
   optional string ecdh_public_key = 6;
   // The relaychain/solochain header number synchronized to.
   uint32 headernum = 7;
@@ -104,7 +104,7 @@ message PhactoryInfo {
   uint64 pending_messages = 12;
   // Local estimated benchmark score.
   uint64 score = 13;
-  // Status of gatekeeper
+  // Status of gatekeeper. (Deprecated, use .system.gatekeeper instead)
   GatekeeperStatus gatekeeper = 14;
   // The App version
   string version = 15;
@@ -114,14 +114,28 @@ message PhactoryInfo {
   uint64 running_side_tasks = 17;
   // The heap memory usage of the enclave.
   MemoryUsage memory_usage = 18;
-  // The number of clusters created
-  uint64 number_of_clusters = 19;
-  // The number of contracts deployed
-  uint64 number_of_contracts = 20;
   // Some relay chain header synced, waiting for parachain headers.
   bool waiting_for_paraheaders = 21;
   // Network status
   NetworkStatus network_status = 22;
+  // System info
+  SystemInfo system = 23;
+}
+
+// Basic information for the initialized runtime
+message SystemInfo {
+  // Whether the worker has been registered on-chain.
+  bool registered = 1;
+  // Public key of the worker.
+  string public_key = 2;
+  // ECDH public key of the worker.
+  string ecdh_public_key = 3;
+  // Status of gatekeeper
+  GatekeeperStatus gatekeeper = 4;
+  // The number of clusters created
+  uint64 number_of_clusters = 5;
+  // The number of contracts deployed
+  uint64 number_of_contracts = 6;
 }
 
 enum GatekeeperRole {
