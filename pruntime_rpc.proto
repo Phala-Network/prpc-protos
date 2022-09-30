@@ -76,6 +76,9 @@ service PhactoryAPI {
 
   // Fetch resource from the internet.
   rpc HttpFetch (HttpRequest) returns (HttpResponse) {}
+
+  // Get basic information about given contract
+  rpc GetContractInfo (GetContractInfoRequest) returns (GetContractInfoResponse) {}
 }
 
 // Basic information about a Phactory instance.
@@ -485,4 +488,34 @@ message HttpResponse {
   repeated HttpHeader headers = 2;
   // The body payload
   bytes body = 3;
+}
+
+// Parameters for RPC GetContractInfo
+message GetContractInfoRequest {
+  // The contract to query about. Leave empty to query all.
+  string contract_id = 1;
+}
+
+// Response for RPC GetContractInfo
+message GetContractInfoResponse {
+  // A list of contract informations
+  repeated ContractInfo contracts = 1;
+}
+
+// Infomation about a contract
+message ContractInfo {
+  // The contract id
+  string id = 1;
+  // The scheduling weight
+  uint32 weight = 2;
+  // Infomation about it's sidevm if exists
+  SidevmInfo sidevm = 3;
+}
+
+// Infomation about a sidevm
+message SidevmInfo {
+  // Sidevm state. running/stopped
+  string state = 1;
+  // The latest stop reason if stopped
+  string stop_reason = 4;
 }
