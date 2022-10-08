@@ -495,8 +495,8 @@ message HttpResponse {
 
 // Parameters for RPC GetContractInfo
 message GetContractInfoRequest {
-  // The contract to query about. Leave empty to query all.
-  string contract_id = 1;
+  // The ids of contracts to query about. Leave empty to query all.
+  repeated string contract_ids = 1;
 }
 
 // Response for RPC GetContractInfo
