@@ -79,6 +79,9 @@ service PhactoryAPI {
 
   // Get basic information about given contract
   rpc GetContractInfo (GetContractInfoRequest) returns (GetContractInfoResponse) {}
+
+  // Get basic information about clusters
+  rpc GetClusterInfo (google.protobuf.Empty) returns (GetClusterInfoResponse) {}
 }
 
 // Basic information about a Phactory instance.
@@ -524,4 +527,21 @@ message SidevmInfo {
   string start_time = 3;
   // The latest stop reason if stopped
   string stop_reason = 4;
+}
+
+// Response to GetClusters
+message GetClusterInfoResponse {
+  repeated ClusterInfo clusters = 1;
+}
+
+// Information about a cluster
+message ClusterInfo {
+  // The cluster id.
+  string id = 1;
+  // The version of the current system contract.
+  string version = 2;
+  // The state root of it's storage.
+  string state_root = 3;
+  // Installed contracts in the cluster.
+  repeated string contracts = 4;
 }
