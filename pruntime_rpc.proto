@@ -506,16 +506,22 @@ message GetContractInfoResponse {
 message ContractInfo {
   // The contract id
   string id = 1;
+  // The blake2 256 hash of the contract
+  string code_hash = 2;
   // The scheduling weight
-  uint32 weight = 2;
+  uint32 weight = 3;
   // Infomation about it's sidevm if exists
-  SidevmInfo sidevm = 3;
+  SidevmInfo sidevm = 4;
 }
 
 // Infomation about a sidevm
 message SidevmInfo {
   // Sidevm state. running/stopped
   string state = 1;
+  // The blake2 256 hash of the current running sidevm.
+  string code_hash = 2;
+  // The start time of the instance.
+  string start_time = 3;
   // The latest stop reason if stopped
   string stop_reason = 4;
 }
