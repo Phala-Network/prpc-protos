@@ -82,6 +82,11 @@ service PhactoryAPI {
 
   // Get basic information about clusters
   rpc GetClusterInfo (google.protobuf.Empty) returns (GetClusterInfoResponse) {}
+
+  // Upload sidevm code to given contract. An ink contract can deploy a placeholder sidevm
+  // instance without upload the code via the blockchain and then upload the code via this
+  // RPC later.
+  rpc UploadSidevmCode (SidevmCode) returns (google.protobuf.Empty) {}
 }
 
 // Basic information about a Phactory instance.
@@ -544,4 +549,12 @@ message ClusterInfo {
   string state_root = 3;
   // Installed contracts in the cluster.
   repeated string contracts = 4;
+}
+
+// Sidevm code
+message SidevmCode {
+  // The target contract_id
+  bytes contract = 1;
+  // The code
+  bytes code = 2;
 }
