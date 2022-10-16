@@ -121,8 +121,6 @@ message PhactoryInfo {
   string version = 15;
   // The git commit hash which this binary was built from
   string git_revision = 16;
-  // The number of running side tasks
-  uint64 running_side_tasks = 17;
   // The heap memory usage of the enclave.
   MemoryUsage memory_usage = 18;
   // Some relay chain header synced, waiting for parachain headers.
