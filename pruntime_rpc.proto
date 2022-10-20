@@ -87,6 +87,9 @@ service PhactoryAPI {
   // instance without upload the code via the blockchain and then upload the code via this
   // RPC later.
   rpc UploadSidevmCode (SidevmCode) returns (google.protobuf.Empty) {}
+
+  // Calculate contract id with given deployment parameters
+  rpc CalculateContractId (ContractParameters) returns (ContractId) {}
 }
 
 // Basic information about a Phactory instance.
@@ -555,4 +558,15 @@ message SidevmCode {
   bytes contract = 1;
   // The code
   bytes code = 2;
+}
+
+message ContractParameters {
+  string deployer = 1;
+  string cluster_id = 2;
+  string code_hash = 3;
+  string salt = 4;
+}
+
+message ContractId {
+  string id = 1;
 }
