@@ -328,7 +328,7 @@ message WorkerState {
   bool registered = 1;
   bool unresponsive = 2;
   BenchState bench_state = 3;
-  MiningState mining_state = 4;
+  WorkingState working_state = 4;
   repeated uint32 waiting_heartbeats = 5;
   TokenomicInfo tokenomic_info = 10;
   WorkerStat stat = 11;
@@ -359,7 +359,7 @@ message BenchState {
   uint32 duration = 4;
 }
 
-message MiningState {
+message WorkingState {
   uint32 session_id = 1;
   bool paused = 2;
   uint64 start_time = 3;
