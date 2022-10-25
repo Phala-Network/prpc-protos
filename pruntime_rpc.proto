@@ -246,7 +246,8 @@ message InitRuntimeRequest {
   // Init the runtime for parachain.
   bool is_parachain = 6;
   // Attestation provider;
-  optional string attestation_provider = 7;
+  // @codec scale phala_types::AttestationProvider
+  optional bytes attestation_provider = 7;
 }
 
 // Request parameters for GetRuntimeInfo.
