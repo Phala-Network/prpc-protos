@@ -239,7 +239,7 @@ message InitRuntimeRequest {
   // The parachain's genesis storage state.
   // @codec scale crate::blocks::StorageState
   bytes encoded_genesis_state = 4;
-  // The operator of of this worker, which has the permission to bind it's miner.
+  // The operator of of this worker, which has the permission to bind it's worker.
   // @codec scale chain::AccountId
   optional bytes encoded_operator = 5;
   // Init the runtime for parachain.
@@ -358,7 +358,7 @@ message WorkerState {
   bool registered = 1;
   bool unresponsive = 2;
   BenchState bench_state = 3;
-  MiningState mining_state = 4;
+  WorkingState working_state = 4;
   repeated uint32 waiting_heartbeats = 5;
   TokenomicInfo tokenomic_info = 10;
   WorkerStat stat = 11;
@@ -389,7 +389,7 @@ message BenchState {
   uint32 duration = 4;
 }
 
-message MiningState {
+message WorkingState {
   uint32 session_id = 1;
   bool paused = 2;
   uint64 start_time = 3;
