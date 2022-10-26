@@ -229,6 +229,7 @@ message Blocks {
 
 // Request parameters for InitRuntime.
 message InitRuntimeRequest {
+  // Retired
   // Skip the remote attestation report.
   bool skip_ra = 1;
   // Genesis block infomation for light validation.
@@ -244,6 +245,9 @@ message InitRuntimeRequest {
   optional bytes encoded_operator = 5;
   // Init the runtime for parachain.
   bool is_parachain = 6;
+  // Attestation provider;
+  // @codec scale phala_types::AttestationProvider
+  optional bytes attestation_provider = 7;
 }
 
 // Request parameters for GetRuntimeInfo.
@@ -273,10 +277,12 @@ message InitRuntimeResponse {
 message Attestation {
   int32 version = 1;
   string provider = 2;
-  AttestationReport payload = 3;
+  AttestationReport payload = 3; // Retired
+  bytes encoded_report = 5;
   uint64 timestamp = 4;
 }
 
+// Retired
 message AttestationReport {
   string report = 1;
   bytes signature = 2;
