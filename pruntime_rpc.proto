@@ -90,6 +90,9 @@ service PhactoryAPI {
 
   // Calculate contract id with given deployment parameters
   rpc CalculateContractId (ContractParameters) returns (ContractId) {}
+
+  // Get network configuration
+  rpc GetNetworkConfig (google.protobuf.Empty) returns (NetworkConfigResponse) {}
 }
 
 // Basic information about a Phactory instance.
@@ -128,8 +131,6 @@ message PhactoryInfo {
   MemoryUsage memory_usage = 18;
   // Some relay chain header synced, waiting for parachain headers.
   bool waiting_for_paraheaders = 21;
-  // Network status
-  NetworkStatus network_status = 22;
   // System info
   SystemInfo system = 23;
 }
@@ -462,8 +463,8 @@ message TokenomicInfo {
   // next: 22
 }
 
-// Network status
-message NetworkStatus {
+// Network config
+message NetworkConfigResponse {
   // The public rpc port with ACL enabled. This is the port serving contract queries.
   optional uint32 public_rpc_port = 1;
   // The current config set by The RPC ConfigNetwork. Nil if the ConfigNetwork hasn't been called.
