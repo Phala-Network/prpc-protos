@@ -76,19 +76,36 @@ service PhactoryAPI {
 
   // Fetch resource from the internet.
   rpc HttpFetch (HttpRequest) returns (HttpResponse) {}
+
+  // Get basic information about given contract
+  rpc GetContractInfo (GetContractInfoRequest) returns (GetContractInfoResponse) {}
+
+  // Get basic information about clusters
+  rpc GetClusterInfo (google.protobuf.Empty) returns (GetClusterInfoResponse) {}
+
+  // Upload sidevm code to given contract. An ink contract can deploy a placeholder sidevm
+  // instance without upload the code via the blockchain and then upload the code via this
+  // RPC later.
+  rpc UploadSidevmCode (SidevmCode) returns (google.protobuf.Empty) {}
+
+  // Calculate contract id with given deployment parameters
+  rpc CalculateContractId (ContractParameters) returns (ContractId) {}
+
+  // Get network configuration
+  rpc GetNetworkConfig (google.protobuf.Empty) returns (NetworkConfigResponse) {}
 }
 
 // Basic information about a Phactory instance.
 message PhactoryInfo {
   // Whether the init_runtime has been called successfully.
   bool initialized = 1;
-  // Whether the worker has been registered on-chain.
+  // Whether the worker has been registered on-chain. (Deprecated, use .system.registered instead)
   bool registered = 2;
   // Genesis block header hash passed in by init_runtime.
   optional string genesis_block_hash = 4;
-  // Public key of the worker.
+  // Public key of the worker. (Deprecated, use .system.public_key instead)
   optional string public_key = 5;
-  // ECDH public key of the worker.
+  // ECDH public key of the worker. (Deprecated, use .system.ecdh_public_key instead)
   optional string ecdh_public_key = 6;
   // The relaychain/solochain header number synchronized to.
   uint32 headernum = 7;
@@ -104,24 +121,38 @@ message PhactoryInfo {
   uint64 pending_messages = 12;
   // Local estimated benchmark score.
   uint64 score = 13;
-  // Status of gatekeeper
+  // Status of gatekeeper. (Deprecated, use .system.gatekeeper instead)
   GatekeeperStatus gatekeeper = 14;
   // The App version
   string version = 15;
   // The git commit hash which this binary was built from
   string git_revision = 16;
-  // The number of running side tasks
-  uint64 running_side_tasks = 17;
   // The heap memory usage of the enclave.
   MemoryUsage memory_usage = 18;
-  // The number of clusters created
-  uint64 number_of_clusters = 19;
-  // The number of contracts deployed
-  uint64 number_of_contracts = 20;
   // Some relay chain header synced, waiting for parachain headers.
   bool waiting_for_paraheaders = 21;
-  // Network status
-  NetworkStatus network_status = 22;
+  // System info
+  SystemInfo system = 23;
+}
+
+// Basic information for the initialized runtime
+message SystemInfo {
+  // Whether the worker has been registered on-chain.
+  bool registered = 1;
+  // Public key of the worker.
+  string public_key = 2;
+  // ECDH public key of the worker.
+  string ecdh_public_key = 3;
+  // Status of gatekeeper
+  GatekeeperStatus gatekeeper = 4;
+  // The number of clusters created
+  uint64 number_of_clusters = 5;
+  // The number of contracts deployed
+  uint64 number_of_contracts = 6;
+  // The consensus version used to coordinate the pruntime's behavior
+  uint32 consensus_version = 7;
+  // The max supported consensus version used of this version of pRuntime
+  uint32 max_supported_consensus_version = 8;
 }
 
 enum GatekeeperRole {
@@ -199,6 +230,7 @@ message Blocks {
 
 // Request parameters for InitRuntime.
 message InitRuntimeRequest {
+  // Retired
   // Skip the remote attestation report.
   bool skip_ra = 1;
   // Genesis block infomation for light validation.
@@ -214,6 +246,9 @@ message InitRuntimeRequest {
   optional bytes encoded_operator = 5;
   // Init the runtime for parachain.
   bool is_parachain = 6;
+  // Attestation provider;
+  // @codec scale phala_types::AttestationProvider
+  optional bytes attestation_provider = 7;
 }
 
 // Request parameters for GetRuntimeInfo.
@@ -243,10 +278,12 @@ message InitRuntimeResponse {
 message Attestation {
   int32 version = 1;
   string provider = 2;
-  AttestationReport payload = 3;
+  AttestationReport payload = 3; // Retired
+  bytes encoded_report = 5;
   uint64 timestamp = 4;
 }
 
+// Retired
 message AttestationReport {
   string report = 1;
   bytes signature = 2;
@@ -426,8 +463,8 @@ message TokenomicInfo {
   // next: 22
 }
 
-// Network status
-message NetworkStatus {
+// Network config
+message NetworkConfigResponse {
   // The public rpc port with ACL enabled. This is the port serving contract queries.
   optional uint32 public_rpc_port = 1;
   // The current config set by The RPC ConfigNetwork. Nil if the ConfigNetwork hasn't been called.
@@ -467,4 +504,76 @@ message HttpResponse {
   repeated HttpHeader headers = 2;
   // The body payload
   bytes body = 3;
+}
+
+// Parameters for RPC GetContractInfo
+message GetContractInfoRequest {
+  // The ids of contracts to query about. Leave empty to query all.
+  repeated string contract_ids = 1;
+}
+
+// Response for RPC GetContractInfo
+message GetContractInfoResponse {
+  // A list of contract informations
+  repeated ContractInfo contracts = 1;
+}
+
+// Infomation about a contract
+message ContractInfo {
+  // The contract id
+  string id = 1;
+  // The blake2 256 hash of the contract
+  string code_hash = 2;
+  // The scheduling weight
+  uint32 weight = 3;
+  // Infomation about it's sidevm if exists
+  SidevmInfo sidevm = 4;
+}
+
+// Infomation about a sidevm
+message SidevmInfo {
+  // Sidevm state. running/stopped
+  string state = 1;
+  // The blake2 256 hash of the current running sidevm.
+  string code_hash = 2;
+  // The start time of the instance.
+  string start_time = 3;
+  // The latest stop reason if stopped
+  string stop_reason = 4;
+}
+
+// Response to GetClusters
+message GetClusterInfoResponse {
+  repeated ClusterInfo clusters = 1;
+}
+
+// Information about a cluster
+message ClusterInfo {
+  // The cluster id.
+  string id = 1;
+  // The version of the current system contract.
+  string version = 2;
+  // The state root of it's storage.
+  string state_root = 3;
+  // Installed contracts in the cluster.
+  repeated string contracts = 4;
+}
+
+// Sidevm code
+message SidevmCode {
+  // The target contract_id
+  bytes contract = 1;
+  // The code
+  bytes code = 2;
+}
+
+message ContractParameters {
+  string deployer = 1;
+  string cluster_id = 2;
+  string code_hash = 3;
+  string salt = 4;
+}
+
+message ContractId {
+  string id = 1;
 }
