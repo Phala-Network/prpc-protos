@@ -93,6 +93,9 @@ service PhactoryAPI {
 
   // Get network configuration
   rpc GetNetworkConfig (google.protobuf.Empty) returns (NetworkConfigResponse) {}
+
+  // Load given chain state into the pruntime
+  rpc LoadChainState (ChainState) returns (google.protobuf.Empty) {}
 }
 
 // Basic information about a Phactory instance.
@@ -133,6 +136,8 @@ message PhactoryInfo {
   bool waiting_for_paraheaders = 21;
   // System info
   SystemInfo system = 23;
+  // Whether the pruntime support to load state from arbitrary block.
+  bool can_load_chain_state = 24;
 }
 
 // Basic information for the initialized runtime
@@ -576,4 +581,10 @@ message ContractParameters {
 
 message ContractId {
   string id = 1;
+}
+
+message ChainState {
+  uint32 block_number = 1;
+  // @codec scale crate::blocks::StorageState
+  bytes encoded_state = 2;
 }
