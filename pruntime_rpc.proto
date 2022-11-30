@@ -156,6 +156,8 @@ message SystemInfo {
   uint64 number_of_contracts = 6;
   // The max supported consensus version used of this version of pRuntime
   uint32 max_supported_consensus_version = 7;
+  // The block that the pruntime loaded the genesis state from.
+  uint32 genesis_block = 8;
 }
 
 enum GatekeeperRole {
