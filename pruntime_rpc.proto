@@ -96,6 +96,9 @@ service PhactoryAPI {
 
   // Load given chain state into the pruntime
   rpc LoadChainState (ChainState) returns (google.protobuf.Empty) {}
+
+  // Stop and optionally remove checkpoints
+  rpc Stop (StopOptions) returns (google.protobuf.Empty) {}
 }
 
 // Basic information about a Phactory instance.
@@ -587,4 +590,9 @@ message ChainState {
   uint32 block_number = 1;
   // @codec scale crate::blocks::StorageState
   bytes encoded_state = 2;
+}
+
+message StopOptions {
+  // Remove checkpoints before stop
+  bool remove_checkpoints = 1;
 }
