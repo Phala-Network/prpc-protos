@@ -99,6 +99,9 @@ service PhactoryAPI {
 
   // Stop and optionally remove checkpoints
   rpc Stop (StopOptions) returns (google.protobuf.Empty) {}
+
+  // Partially load values into the pruntime's chain storage.
+  rpc LoadStorageProof (StorageProof) returns (google.protobuf.Empty) {}
 }
 
 // Basic information about a Phactory instance.
@@ -595,4 +598,8 @@ message ChainState {
 message StopOptions {
   // Remove checkpoints before stop
   bool remove_checkpoints = 1;
+}
+
+message StorageProof {
+  repeated bytes proof = 1;
 }
