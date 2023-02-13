@@ -144,6 +144,8 @@ message PhactoryInfo {
   SystemInfo system = 23;
   // Whether the pruntime support to load state from arbitrary block.
   bool can_load_chain_state = 24;
+  // Safe mode level
+  uint32 safe_mode_level = 25;
 }
 
 // Basic information for the initialized runtime
