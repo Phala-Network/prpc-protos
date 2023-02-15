@@ -102,6 +102,9 @@ service PhactoryAPI {
 
   // Partially load values into the pruntime's chain storage.
   rpc LoadStorageProof (StorageProof) returns (google.protobuf.Empty) {}
+
+  // Take checkpoint. Returns the current block number of the saved state.
+  rpc TakeCheckpoint (google.protobuf.Empty) returns (SyncedTo) {}
 }
 
 // Basic information about a Phactory instance.
@@ -146,6 +149,8 @@ message PhactoryInfo {
   bool can_load_chain_state = 24;
   // Safe mode level
   uint32 safe_mode_level = 25;
+  // The timestamp of current block in milliseconds.
+  uint64 current_block_time = 26;
 }
 
 // Basic information for the initialized runtime
