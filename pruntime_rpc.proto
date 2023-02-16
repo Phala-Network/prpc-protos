@@ -163,8 +163,8 @@ message SystemInfo {
   string ecdh_public_key = 3;
   // Status of gatekeeper
   GatekeeperStatus gatekeeper = 4;
-  // The number of clusters created
-  uint64 number_of_clusters = 5;
+  // The cluster id if deployed.
+  string cluster = 5;
   // The number of contracts deployed
   uint64 number_of_contracts = 6;
   // The max supported consensus version used of this version of pRuntime
@@ -564,15 +564,15 @@ message SidevmInfo {
 
 // Response to GetClusters
 message GetClusterInfoResponse {
-  repeated ClusterInfo clusters = 1;
+  ClusterInfo info = 1;
 }
 
 // Information about a cluster
 message ClusterInfo {
   // The cluster id.
   string id = 1;
-  // The version of the current system contract.
-  string version = 2;
+  // The version of the current contract execution engine
+  string runtime_version = 2;
   // The state root of it's storage.
   string state_root = 3;
   // Installed contracts in the cluster.
