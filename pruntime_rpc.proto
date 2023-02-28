@@ -151,6 +151,8 @@ message PhactoryInfo {
   uint32 safe_mode_level = 25;
   // The timestamp of current block in milliseconds.
   uint64 current_block_time = 26;
+  // The max pink runtime version can be deployed in this version of pruntime.
+  string max_supported_pink_runtime_version = 27;
 }
 
 // Basic information for the initialized runtime
