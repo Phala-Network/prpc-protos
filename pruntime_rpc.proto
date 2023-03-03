@@ -165,8 +165,8 @@ message SystemInfo {
   string ecdh_public_key = 3;
   // Status of gatekeeper
   GatekeeperStatus gatekeeper = 4;
-  // The cluster id if deployed.
-  string cluster = 5;
+  // The number of clusters created
+  uint64 number_of_clusters = 5;
   // The number of contracts deployed
   uint64 number_of_contracts = 6;
   // The max supported consensus version used of this version of pRuntime
