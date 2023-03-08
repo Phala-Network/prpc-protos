@@ -105,6 +105,9 @@ service PhactoryAPI {
 
   // Take checkpoint. Returns the current block number of the saved state.
   rpc TakeCheckpoint (google.protobuf.Empty) returns (SyncedTo) {}
+
+  // Get networks statistics for contracts
+  rpc Statistics (StatisticsReqeust) returns (StatisticsResponse) {}
 }
 
 // Basic information about a Phactory instance.
@@ -531,7 +534,7 @@ message HttpResponse {
 // Parameters for RPC GetContractInfo
 message GetContractInfoRequest {
   // The ids of contracts to query about. Leave empty to query all.
-  repeated string contract_ids = 1;
+  repeated string contracts = 1;
 }
 
 // Response for RPC GetContractInfo
@@ -613,4 +616,57 @@ message StopOptions {
 
 message StorageProof {
   repeated bytes proof = 1;
+}
+
+// Used to specify the contracts addresses for which statistics should be returned.
+message StatisticsReqeust {
+  // A list of contract addresses that to be queried.
+  repeated string contracts = 1;
+  // Query for all contracts.
+  bool all = 2;
+}
+
+// The statistics that are returned by the RPC service.
+message StatisticsResponse {
+  // The number of seconds the worker has been running.
+  // The counters are reset to zero on each restart.
+  uint64 uptime = 1;
+  // Statistics for contract queries.
+  QueryStats query = 2;
+  // Statistics for HTTP egress made by ink contracts.
+  HttpEgressStats http_egress = 3;
+}
+
+// Statistics for queries.
+message QueryStats {
+  // Overall query statistics.
+  QueryCounters global = 1;
+  // Statistics of query for each contract.
+  map<string, QueryCounters> by_contract = 2;
+}
+
+// Counters for queries.
+message QueryCounters {
+  // Total number of queries.
+  uint64 total = 1;
+  // The number of dropped queries.
+  uint64 dropped = 2;
+}
+
+// HTTP egress statistics for contracts.
+message HttpEgressStats {
+  // Overall HTTP egress statistics.
+  HttpCounters global = 1;
+  // HTTP egress statistics for each contract.
+  map<string, HttpCounters> by_contract = 2;
+}
+
+// Counters for HTTP egress.
+message HttpCounters {
+  // The number of HTTP requests sent.
+  uint64 requests = 1;
+  // The number of failed HTTP requests.
+  uint64 failures = 2;
+  // The number of HTTP requests for each status code.
+  map<uint32, uint64> by_status_code = 3;
 }
