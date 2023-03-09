@@ -193,6 +193,8 @@ message MemoryUsage {
   uint64 rust_peak_used = 2;
   // The entire peak heap memory usage of the enclave.
   uint64 total_peak_used = 3;
+  // The memory left.
+  uint64 free = 4;
 }
 
 // Response to SyncHeader & SyncParaHeader.
