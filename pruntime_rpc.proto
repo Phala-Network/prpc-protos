@@ -631,10 +631,12 @@ message StatisticsResponse {
   // The number of seconds the worker has been running.
   // The counters are reset to zero on each restart.
   uint64 uptime = 1;
+  // Number of serving cores available to the worker.
+  uint32 cores = 2;
   // Statistics for contract queries.
-  QueryStats query = 2;
+  QueryStats query = 3;
   // Statistics for HTTP egress made by ink contracts.
-  HttpEgressStats http_egress = 3;
+  HttpEgressStats http_egress = 4;
 }
 
 // Statistics for queries.
@@ -651,6 +653,8 @@ message QueryCounters {
   uint64 total = 1;
   // The number of dropped queries.
   uint64 dropped = 2;
+  // The served time in milliseconds.
+  uint64 time = 3;
 }
 
 // HTTP egress statistics for contracts.
