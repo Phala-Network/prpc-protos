@@ -108,6 +108,15 @@ service PhactoryAPI {
 
   // Get networks statistics for contracts
   rpc Statistics (StatisticsReqeust) returns (StatisticsResponse) {}
+
+  // Generage a request to send to anthor worker in the same cluster to get the cluster state.
+  rpc GenerateClusterStateRequest (google.protobuf.Empty) returns (SaveClusterStateArguments) {}
+
+  // Save the current cluster state to filesystem
+  rpc SaveClusterState (SaveClusterStateArguments) returns (SaveClusterStateResponse) {}
+
+  // Load the cluster state from filesystem
+  rpc LoadClusterState (SaveClusterStateResponse) returns (google.protobuf.Empty) {}
 }
 
 // Basic information about a Phactory instance.
@@ -673,4 +682,20 @@ message HttpCounters {
   uint64 failures = 2;
   // The number of HTTP requests for each status code.
   map<uint32, uint64> by_status_code = 3;
+}
+
+message SaveClusterStateArguments {
+  // The pubkey for the worker to receive the state.
+  string receiver = 1;
+  // The state must later than this block number.
+  uint32 min_block_number = 2;
+  // Signature to ensure the request is from the dest worker.
+  string signature = 3;
+}
+
+message SaveClusterStateResponse {
+  // The block number of the saved state.
+  uint32 block_number = 1;
+  // The filename to download the state.
+  string filename = 2;
 }
