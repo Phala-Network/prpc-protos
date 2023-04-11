@@ -209,6 +209,8 @@ message MemoryUsage {
   uint64 total_peak_used = 3;
   // The memory left.
   uint64 free = 4;
+  // The peak heap usage of Rust codes in a recent short-term.
+  uint64 rust_spike = 5;
 }
 
 // Response to SyncHeader & SyncParaHeader.
