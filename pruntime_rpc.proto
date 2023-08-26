@@ -170,6 +170,8 @@ message PhactoryInfo {
   string max_supported_pink_runtime_version = 27;
   // The supported attestation methods
   repeated string supported_attestation_methods = 28;
+  // The number of live sidevm instances.
+  uint32 live_sidevm_instances = 29;
 }
 
 // Basic information for the initialized runtime
