@@ -424,10 +424,12 @@ message HandoverChallengeResponse {
 }
 
 message HandoverWorkerKey {
-  // @codec scale phala_types::EncryptedWorkerKey
-  bytes encoded_worker_key = 1;
   // The sgx attestation on the encrypted worker key hash
   Attestation attestation = 2;
+  // @codec scale phala_types::EncryptedWorkerKeyV0
+  optional bytes encoded_worker_key_v0 = 1;
+  // @codec scale phala_types::EncryptedWorkerKeyV1
+  optional bytes encoded_worker_key_v1 = 3;
 }
 
 message BenchState {
