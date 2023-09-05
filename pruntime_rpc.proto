@@ -117,6 +117,9 @@ service PhactoryAPI {
 
   // Load the cluster state from filesystem
   rpc LoadClusterState (SaveClusterStateResponse) returns (google.protobuf.Empty) {}
+
+  // Load the cluster state from filesystem
+  rpc TryUpgradePinkRuntime (PinkRuntimeVersion) returns (google.protobuf.Empty) {}
 }
 
 // Basic information about a Phactory instance.
@@ -701,4 +704,11 @@ message SaveClusterStateResponse {
   uint32 block_number = 1;
   // The filename to download the state.
   string filename = 2;
+}
+
+message PinkRuntimeVersion {
+  // The major version of the pink runtime
+  uint32 major = 1;
+  // The minor version of the pink runtime
+  uint32 minor = 2;
 }
