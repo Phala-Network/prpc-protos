@@ -595,8 +595,12 @@ message ClusterInfo {
   string runtime_version = 2;
   // The state root of it's storage.
   string state_root = 3;
-  // Installed contracts in the cluster.
-  repeated string contracts = 4;
+  // The address of the system contract.
+  string system_contract = 5;
+  // The address of the log server.
+  string logger_contract = 6;
+  // Number of contracts deployed
+  uint64 number_of_contracts = 7;
 }
 
 // Sidevm code
