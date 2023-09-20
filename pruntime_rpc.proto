@@ -582,6 +582,14 @@ message SidevmInfo {
   string start_time = 3;
   // The latest stop reason if stopped
   string stop_reason = 4;
+  // The max memory pages configuration
+  uint32 max_memory_pages = 5;
+  // The vital_capacity configuration
+  uint64 vital_capacity = 6;
+  // Run until the given block number
+  uint32 deadline = 7;
+  // The max code size configuration
+  uint32 max_code_size = 8;
 }
 
 // Response to GetClusters
