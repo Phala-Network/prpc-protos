@@ -613,6 +613,8 @@ message ClusterInfo {
   string logger_contract = 6;
   // Number of contracts deployed
   uint64 number_of_contracts = 7;
+  // The Js Runtime code hash
+  string js_runtime = 8;
 }
 
 // Sidevm code
