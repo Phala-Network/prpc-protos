@@ -118,8 +118,28 @@ service PhactoryAPI {
   // Load the cluster state from filesystem
   rpc LoadClusterState (SaveClusterStateResponse) returns (google.protobuf.Empty) {}
 
-  // Load the cluster state from filesystem
+  // Try to upgrade the pink runtime to the given version.
   rpc TryUpgradePinkRuntime (PinkRuntimeVersion) returns (google.protobuf.Empty) {}
+
+  // Allow a target pRuntime the handover the worker key of this pRuntime to.
+  // The target pRuntime must be signed by the council members.
+  rpc AllowHandoverTo (AllowHandoverToRequest) returns (google.protobuf.Empty) {}
+}
+
+message AllowHandoverToRequest {
+  // The target pRuntime's SGX measurement
+  bytes measurement = 1;
+  // The signatures of the council members.
+  repeated SigInfo signatures = 2;
+}
+
+message SigInfo {
+  // The pubkey of the signer
+  bytes pubkey = 1;
+  // The signature type
+  SignatureType signature_type = 2;
+  // The signature of the data
+  bytes signature = 3;
 }
 
 // Basic information about a Phactory instance.
