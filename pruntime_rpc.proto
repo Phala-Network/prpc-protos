@@ -376,6 +376,8 @@ enum SignatureType {
   Sr25519WrapBytes = 4;
   EcdsaWrapBytes = 5;
   Eip712 = 6;
+  EvmEcdsa = 7;
+  EvmEcdsaWrapBytes = 8;
 }
 
 message ContractQueryResponse {
