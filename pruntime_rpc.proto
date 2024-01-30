@@ -71,6 +71,13 @@ service PhactoryAPI {
   // Key Handover Client: Receive encrypted worker key
   rpc HandoverReceive (HandoverWorkerKey) returns (google.protobuf.Empty) {}
 
+  // Key Handover Server: Get challenge for worker key handover from another pRuntime
+  rpc DcapHandoverCreateChallenge (google.protobuf.Empty) returns (DcapHandoverChallenge) {}
+
+  // Key Handover Server: Get worker key with RA report on challenge from another pRuntime
+  rpc DcapHandoverStart (DcapHandoverChallengeResponse) returns (DcapHandoverWorkerKey) {}
+
+
   // Config the pRuntime's network (currently, SOCKS5 proxy only)
   rpc ConfigNetwork (NetworkConfig) returns (google.protobuf.Empty) {}
 
@@ -434,6 +441,27 @@ message HandoverWorkerKey {
   bytes encoded_worker_key = 1;
   // The sgx attestation on the encrypted worker key hash
   Attestation attestation = 2;
+}
+
+message DcapHandoverChallenge {
+  // @codec scale phala_types::DcapHandoverChallenge<chain::BlockNumber>
+  bytes encoded_challenge = 1;
+}
+
+message DcapHandoverChallengeResponse {
+  // @codec scale phala_types::ChallengeHandlerInfo<chain::BlockNumber>
+  bytes encoded_challenge_handler = 1;
+  // The sgx local attestation report of the client
+  bytes la_report = 2;
+  // The sgx target info of the client
+  bytes target_info = 3;
+}
+
+message DcapHandoverWorkerKey {
+  // @codec scale phala_types::EncryptedWorkerKey
+  bytes encoded_worker_key = 1;
+  // The sgx local attestation report
+  bytes la_report = 2;
 }
 
 message BenchState {
